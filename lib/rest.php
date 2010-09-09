@@ -1,20 +1,36 @@
-<?
-/**
-* 
-*/
-class RestClient
+<?php
+
+function curl_get($url)
 {
-	function __construct(argument)
-	{
-		// first check if curl is enabled
-		CheckCurlExists();
-	}
-	
-	private function CheckCurlExists()
-	{
-	   if (!function_exists(curl_exec)) {
-	       echo "You need to enable curl in your php.ini to use this library."
-	   }
-	}
+    // create a new curl resource
+    $ch = curl_init();
+
+    // set URL to download
+    curl_setopt($ch, CURLOPT_URL, $url);
+
+    // set referer:
+    curl_setopt($ch, CURLOPT_REFERER, "http://www.google.com/");
+
+    // user agent:
+    curl_setopt($ch, CURLOPT_USERAGENT, "MozillaXYZ/1.0");
+
+    // remove header? 0 = yes, 1 = no
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+
+    // should curl return or print the data? true = return, false = print
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    // timeout in seconds
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
+    // download the given URL, and return output
+    $output = curl_exec($ch);
+
+    // close the curl resource, and free system resources
+    curl_close($ch);
+
+    // print output
+    return $output;
 }
+
 ?>
