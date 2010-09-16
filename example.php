@@ -6,6 +6,8 @@ header('Content-type: text/plain');
 
 $client = new RestClient;
 
-echo $client->get("http://api.zefridge.com/users/all.json");
+#$params = array('firstname' => 'Bob', 'lastname' => 'Test', 'email' => 'bob.test@zefridge.com');
+
+echo $client->delete("http://api.zefridge.com/users/3");
 
 ?>
