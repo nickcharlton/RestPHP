@@ -1,36 +1,39 @@
 <?php
-
-function curl_get($url)
+class RestClient
 {
-    // create a new curl resource
-    $ch = curl_init();
+    /*
+    *   Define some internal methods to make life easier.
+    */
+    private $userAgent = "RestPHP/0.1";
+    
+    function __construct()
+	{
+		// check if curl is enabled
+		$this->CheckCurlExists();
+	}
+	
+	private function CheckCurlExists()
+	{
+	   if (!function_exists("curl_exec")) {
+	       // if it doesn't, throw up a friendly error message
+	       echo "You need to enable curl in your php.ini file to use this library.";
+	   }
+	}
+	/*
+	*   Define the methods for Rest requests.
+	*/
+	public function get($url)
+    {    
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        
+        $output = curl_exec($ch);
 
-    // set URL to download
-    curl_setopt($ch, CURLOPT_URL, $url);
-
-    // set referer:
-    curl_setopt($ch, CURLOPT_REFERER, "http://www.google.com/");
-
-    // user agent:
-    curl_setopt($ch, CURLOPT_USERAGENT, "MozillaXYZ/1.0");
-
-    // remove header? 0 = yes, 1 = no
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-
-    // should curl return or print the data? true = return, false = print
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    // timeout in seconds
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-
-    // download the given URL, and return output
-    $output = curl_exec($ch);
-
-    // close the curl resource, and free system resources
-    curl_close($ch);
-
-    // print output
-    return $output;
+        curl_close($ch);
+        
+        return $output;
+    }
 }
-
-?>

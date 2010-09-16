@@ -10,9 +10,7 @@ The is to simplify making RESTful requests using PHP.
 	
 	$client = new RestClient;
 	
-	$client->get("url")
-	
-	echo $client
+	$client->get("url");
 
 ## Copyright
 
