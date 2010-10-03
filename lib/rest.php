@@ -5,6 +5,7 @@ class RestClient
     *   Define some internal methods to make life easier.
     */
     private $userAgent = "RestPHP/0.1";
+	private $globalURL = "";
     
     function __construct()
 	{
@@ -18,6 +19,10 @@ class RestClient
 	       echo "You need to enable curl in your php.ini file to use this library.";
 	   }
 	}
+	public function setGlobalURL($new)
+	{
+		$this->globalURL = $new;
+	}
 	public function setUserAgent($new)
 	{
 	    $this->userAgent = $new;
@@ -26,7 +31,9 @@ class RestClient
 	*   Define the methods for Rest requests.
 	*/
 	public function get($url)
-    {    
+    {   
+		$url = $this->globalURL . $url;
+	
         $ch = curl_init($url);
         
         curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
@@ -41,6 +48,8 @@ class RestClient
     }
     public function put($url, $params)
     {
+		$url = $this->globalURL . $url;
+		
         $ch = curl_init($url);
         
         curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
@@ -58,6 +67,8 @@ class RestClient
     }
     public function post($url, $params)
     {
+		$url = $this->globalURL . $url;
+		
         $ch = curl_init($url);
         
         curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
@@ -75,6 +86,8 @@ class RestClient
     }
     public function delete($url)
     {
+		$url = $this->globalURL . $url;
+		
         $ch = curl_init($url);
         
         curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
